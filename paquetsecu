@@ -1,0 +1,13 @@
+ Compter les paquets de navigation web sécurisée pour le LAN
+iptables -N SECURE_WEB_COUNT
+iptables -A FORWARD -p tcp --dport 443 -o eth0 -j SECURE_WEB_COUNT
+iptables -A SECURE_WEB_COUNT -j ACCEPT
+iptables -A SECURE_WEB_COUNT -j LOG --log-prefix "SECURE_WEB_COUNT: "
+
+# Afficher les compteurs de paquets sécurisés
+iptables -A OUTPUT -p tcp --dport 443 -o eth0 -j SECURE_WEB_COUNT
+
+# Activer la journalisation des paquets refusés (facultatif)
+iptables -A INPUT -j LOG --log-prefix "IPTABLES_DROP: "
+iptables -A FORWARD -j LOG --log-prefix "IPTABLES_DROP: "
+iptables -A OUTPUT -j LOG --log-prefix "IPTABLES_DROP: "
