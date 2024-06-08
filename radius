@@ -1,0 +1,14 @@
+dans l'ad rajouter - network policy et installer
+- ouvri network policy -  raduis client - new - ip_pfsense (pf client radius)
+config user1
+-ouvrir AD user en compu - create user -  ajouter au grou PfsenseUser  qu'on creer
+	on coche tout
+
+pfsense; system, User, auth servers
+type radius - ip winserverpfsense - mm mdp
+
+event log: test de connexion
+
+pf: diagnostic -authntifica
+user1 - mdp
+ip tunnel 10.215.1.0/24
