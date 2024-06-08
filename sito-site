@@ -1,0 +1,47 @@
+Création de la Gatways dans la Pfsense (2-sites)
+1. System - Routing - Gateways - Clic Add
+2. Select LAN - Ipv4 - Name Gateway_Pfsense_site1 - Ip_Pfsense1 (pas de masque)
+3. clic save - clic applys changes
+
+Création de 2 routes statistiques pour autoriser les PC a joindre la Pfsense
+1. System - Routing - Static Routes - Clic Add
+step1: ip_network_lanPC1(10.210.2.0) - select  Gateway_Pfsense_site1 - select /24 - clic save
+step1: ip_network_lanPC2(10.210.3.0) - select  Gateway_Pfsense_site1 - clic save
+2. clic save - clic applys changes
+
+Activons la règles du LAN pour autoriser l'accès a Internet
+1. Firewall - Rules - LAN - LAN subnet ipv4 -clic modify
+Source - Network - 10.210.0.0 /16
+Destination - Any
+2. clic save - Apply changes
+
+Partie VPN
+1. Interfaces - WAN - décocher les bloc de fin
+vue qu'on utilise une connexion privée, il faut décocher pour autoriser Pfsense
+2. clic save - Apply changes
+
+Rajoutons mtn une gateway a nos pfsenses
+
+Redemarrons la Pfsense: PC1 & PC2 Ping Pfsense
+
+p2: site-to-site
+coté site1
+1. Créer une autorité de certification
+2. Création d’un certificat de serveur
+3. Créer des certificats d’utilisateur
+4. Certificats d’exportation
+5. Configurer l’instance de serveur OpenVPN
+- "décocher" (TLS configuration)
+tunnels ipv4 10.212.1.8/30 nb: l'adresse réseaux du tunnel
+/30 car max 2 ips de connexions autorisé
+- Réseaux local mes PC: 10.210.0.0/16
+- réseaux distants PC site2: 10.211.0.0/16
+6. Créer des remplacements spécifiques au client
+-ip reseaux pc1 & 2: 10.210.2.0/24
+7. Firewall Rules
+-trafic externe:
+UDP - Source Any - Destination WAN address - 
+Destination port OpenVPN OpenVPN
+-trafic tunnelisé:
+
+coté site2 client
