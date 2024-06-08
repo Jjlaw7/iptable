@@ -1,0 +1,2 @@
+# Autoriser le client à accéder au serveur web (HTTP)
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
